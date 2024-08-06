@@ -1,0 +1,43 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Django database file
+db.sqlite3
+
+# Ignore environment folders
+env/
+.venv/
+myenv/
+
+# Ignore Visual Studio Code settings folder
+.vscode/
+
+# Ignore PyCharm settings folder
+.idea/
+
+# Ignore operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore node_modules folder (for React frontend)
+node_modules/
+
+# Ignore build files
+build/
+dist/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore other IDE/editor settings
+*.swp
+
+# Ignore local environment variables
+.env
+
+# Ignore FontAwesome and MUI cache or temporary files
+.fontawesome-cache/
