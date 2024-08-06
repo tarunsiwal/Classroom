@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Create class
+{% endblock %}
+
+{% block pagetitle%}
+Classroom
+{% endblock %}
+
+{% block content %}
+<div  class="content">
+
+{% if perms.main %}
+<!-- navigation -->
+<ul class="nav nav-tabs justify-content-end">
+    <li class="nav-item">
+        <form action='/create_meeting' method="POST">
+            {% csrf_token %}
+            <button  type="submit" class="nav-link">Create meeting</button>
+        </form>
+    </li>
+    <li class="nav-item">
+        <form action='/meeting_list' method="POST">
+          {%csrf_token %}
+            <button type="submit" class="nav-link">View meetings</button>
+        </form>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+{% if messages %}
+{% for message in messages%}
+<div class="alert alert-success alert-dismissible " role="alert">{{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+{% endif %}
+<!-- link box -->
+
+  <div>
+    <h4 style="margin-top:16px;">Available classrooms</h4>
+    <div class="container-fluid">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Teacher</th>
+                <th scope="col">Description</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">Password</th>
+                <th scope="col" class="justify center">Action</th>
+           
+              </tr>
+            </thead>
+            
+            
+              {% for link in list_items %}
+              <tbody>
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{link.author.first_name}}&nbsp;{{link.author.last_name}}</td>
+                <td>{{link.description}}</td>
+                <td>{{link.start_time}}</td>
+                <td>{{link.password}}</td>
+                <td>
+                  <form method="post">
+                  <a href="{{link.join_url}}" class="btn btn-primary btn-sm" target="_blank">Join Class</a>
+                  {% csrf_token %}
+                  {% if perms.main %}
+                  <button
+                    type="submit"
+                    class="btn btn-danger btn-sm"
+                    name="joinurl_list-id"
+                    value="{{link.id}}"
+                  >
+                    Delete
+                  </button>
+                  {% endif %}
+                </form>
+              </td>
+              </tr>
+            </tbody>
+              {% empty %}
+            <p style="color: red;">No links available!</p> 
+            {% endfor %}
+            
+            
+      </table>
+    </div>
+  </div>
+
+{% endblock %}
+

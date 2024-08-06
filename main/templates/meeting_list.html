@@ -1,0 +1,47 @@
+{% extends "classroom.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Create meeting
+{% endblock %}
+
+{% block content %}
+<div class="content">
+
+<div>
+<h4>List of meetings<a href="/classroom" style="float:right;"class="btn btn-warning btn-sm">Back to Classroom</a></h4>
+<form class="d-flex" action='getmeeting' method="post">
+        {%csrf_token %}
+        <input type="text" name='tipped'placeholder="Meeting ID" style="width: 30%;">&nbsp;
+        <button type="submit" class="btn btn-outline-primary btn-sm">Add</button>
+</form>
+</div>
+<br>
+<ul class="list-group ">
+
+{% for meeting in meeting_list %}
+<li class="list-group-item">
+
+    <strong>Details:</strong><p style="float: right;color: #6c757d;">{{meeting.start_time}}</p>
+    
+    <div style="color: #6c757d;">
+        ID: {{meeting.id}} <br>
+        Topic: {{meeting.topic}} <br>
+        Duration: {{meeting.duration}} minutes <br>
+        Description: {{meeting.agenda}} <br>
+        Join URL: <code>{{meeting.join_url}}</code><br>
+        Meeting Password: <span style="color:#007FFF;">{{meeting.password}}</span> 
+     
+        <form action="{% url 'delete_meeting' meeting.id %}" method="post" style="float:right;">
+            {% csrf_token %}
+            <a href="{{meeting.start_url}}" class="btn btn-primary btn-sm" target="_blank">Start</a>
+            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+        </form>
+    </div>
+</li>
+{% empty %}
+      <p style="color: #6c757d;">Upload One!</p>
+{% endfor %}
+</ul>
+</div>
+{% endblock %}

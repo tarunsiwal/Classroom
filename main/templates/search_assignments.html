@@ -1,0 +1,32 @@
+{% extends "assignments.html" %}
+
+{% block search %}
+
+{% if searched %}
+<h5>Searched notes</h5>
+{% for file in files %}
+
+<div class="card mt-2 text-bg-light mb-3">
+          
+    <div class="card-body" class="">
+      <p>Subject: <b>{{ file.subject }}</b><strong style="float: right;">@{{ file.author.username }}</strong></p>
+      <p class="card-text">Name: {{file.title}}<br>{{file.assignment.name}}</p>
+      <form method="POST" action="{% url 'delete_assignment' file.pk %}" style="text-align:end;">
+        <a href="{{file.assignment.url}}" class="btn btn-info btn-sm"  target="_blank">Download file</a>
+        {% csrf_token %}
+        {% if perms.main %} 
+        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        {% endif %}
+      </form>
+      <p class="card-text text-muted">{{file.created_at}}</p>
+    </div>
+  </div>
+
+{% empty %}
+<p style="color: #6c757d;">No result found...</p>
+
+{% endfor %}
+
+{% endif %}
+
+{% endblock %}

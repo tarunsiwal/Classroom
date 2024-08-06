@@ -1,0 +1,47 @@
+{% extends "authenticate.html" %}
+
+{% block title %} login {% endblock %} 
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container shadow p-4 mb-5 bg-body text-dark bg-opacity-75 rounded" style="width: 50%;">
+<h1>Login</h1> 
+<hr class="mt-0 mb-4">
+
+{% if messages %}
+{% for message in messages%}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">{{message}}
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+<br />
+<form action="" method="POST">
+  {% csrf_token %} {{form|crispy}}
+  <form>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        name="username"
+        aria-describedby="emailHelp"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" name="password" required/>
+    </div>
+
+    <input type="submit" value="Submit" class="btn btn-success" />
+
+  </form>
+  <br>
+  <p>Don't have an account? Register <a href="/user/register_user">here</a></p>
+  <br /><br />
+</form>
+</div>
+  {% endblock %}

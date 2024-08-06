@@ -1,0 +1,161 @@
+<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+      Whsy do we use it?
+      It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+    </p>
+      <p>
+      Where does it come from?
+      Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+      
+      The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+    </p>
+      <p>
+      Where can I get some?
+      There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+      
+      </p>
+
+------------------------------------------------------------------------------------------------------------------
+
+command for the refreshing the requirements file
+pip freeze > requirements.txt 
+
+for installing the requirements
+pip install -r requirements.txt
+
+------------------------------------------------------------------------------------------------------------------
+code for generate token and joi link
+
+# def generateToken():
+
+    # token = jwt.encode(
+    #         # Create a payload of the token containing
+    #         # API Key & expiration time
+    # {'iss': API_KEY, 'exp': time() + 5000},
+    #         # Secret used to generate token signature
+    # API_SEC,
+    #         # Specify the hashing alg
+    # algorithm='HS256'
+    # )
+    # return token
+
+    # return token
+    #headers = {'authorization': 'Bearer ' + generateToken(), 'content-type': 'application/json'}
+    # r = requests.post(f'https://api.zoom.us/v2/users/me/meetings',headers=headers, data=json.dumps(meetingdetails))
+    # y = json.loads(r.text)
+    # join_URL = y["join_url"]
+    # meetingPassword = y["password"]
+        
+    # return {'meetingPassword':meetingPassword,'join_URL':join_URL}
+
+
+
+meeting_details = {"topic": "test class",
+				"type": 2,
+				"start_time": "2022-07-02T10: 51: 57",
+				"duration": "45",
+				"timezone": "Asia/Kolkata",
+				"agenda": "test",
+
+				"recurrence": {"type": 1,
+								"repeat_interval": 1
+								},
+				"settings": {"host_video": "true",
+							"participant_video": "true",
+							"join_before_host": "False",
+							"mute_upon_entry": "False",
+							"watermark": "true",
+							"audio": "voip",
+							"auto_recording": "cloud"
+							}
+				}
+
+# date =datetime.datetime(2022,7,2,10,15).strftime("yyyy-MM-ddTHH:mm:ss")
+
+
+zoom varification token === l0kA_wVeS5uW8Ny8J_FmxA
+
+
+
+
+models msin
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Post(models.Model):
+
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title= models.CharField(max_length=200)
+    description= models.TextField()
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.title + "\n" + self.description
+
+
+class File(models.Model):
+
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title= models.CharField(max_length=50)
+    file= models.FileField(upload_to='file/')
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.title + "\n" + self.file
+
+class Create_assignments(models.Model):
+
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title= models.CharField(max_length=50)
+    subject= models.CharField(max_length=50)
+    assignment= models.FileField(upload_to='created_assignments/')
+    created_at= models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title + "\n" + self.student
+    
+class Submit_assignments(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    roll_no= models.CharField('Roll Number', help_text='format:year/class/roll no.', max_length=50)
+    assignment= models.FileField(help_text='rename file with subject_rollno.', upload_to='submitted_assignments/')
+    submited_at=('submitted_at', models.DateTimeField(auto_now_add=True))
+
+    def __str__(self):
+        return self.roll_no
+
+class Meeting_details(models.Model):
+
+    meeting_id=models.SlugField(max_length=50)
+    start_link=models.URLField(max_length=500)
+    password=models.CharField(max_length=10)
+    start_time=models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.meeting_id
+
+class Joinurl_list(models.Model):
+
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    meeting_details=models.OneToOneField(Meeting_details,on_delete=models.CASCADE)
+    join_url=models.CharField(verbose_name='Drope URL',help_text='Drope your link here', max_length=250)
+    
+    def __str__(self):
+        return self.join_url
+
+==================================================================================================
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Additional_Fiels(models.Model):
+    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    phone_number= models.CharField('Phone Number',max_length=13,default="+91")
+    rollno= models.CharField('Roll Number', max_length=10,help_text="Format : year/class/rollno")
+  
+    def __str__(self):
+        return self.user.username
+    

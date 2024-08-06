@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}
+Assignments
+{% endblock %}
+
+{% block pagetitle %}
+Assignments
+{% endblock%}
+
+{% block content %}
+
+  <div style="float:left;margin-bottom:16px">
+    {% if perms.main %}
+    <p>Create assignment <a class="link" href="create_assignments">here</a></p>
+    {% else %}
+    <p>Upload and submit your assignment 👉 <a class="link" href="submit_assignments">here</a></p>
+    {% endif %}
+  </div>
+  
+  <div style="float:right;margin-bottom:16px;">
+    <form class="d-flex "  method=POST action= 'search_assignments'>
+      {% csrf_token %}
+      <input class="form-control me-2" type="search" placeholder="Search assignments..." aria-label="Search" role="search" name="searched">
+      <button class="btn btn-outline-success btn-sm" type="submit">Search</button>
+    </form>
+  </div>
+
+<div class="content">
+    <!-- submitted files by students -->
+
+    <div class="container-L">
+      <h5>Submitted assignments</h5>
+        {% for file in submitted_files %}
+        <div class="card mt-2 text-bg-light mb-3">
+            <div class="card-body">
+              <p class="card-text"><strong>{{file.author.accountprofile.rollno}} | @{{ file.author.username }}</strong></p>
+              <p class="card-text">{{file.assignment.name}}</p>
+              
+              <form method="POST" action="{% url 'delete_submitted_assignment' file.pk %}" style="text-align:end;">
+                {% if perms.main %}
+                <a href="{{file.assignment.url}}" class="btn btn-info btn-sm"  target="_blank">Download file</a>
+                {% endif %}
+                {% csrf_token %}
+
+                {% if user == file.author %}
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                {% endif %}
+
+              </form>
+              <p class="card-text text-muted">{{file.submitted_at}}</p>
+            </div>
+            
+          </div>
+        {% empty %}
+        <p style="color: #6c757d;">No assignments!</p>
+        {% endfor %}
+    </div>
+    <!-- uploaded files by teacher -->
+    <div class="container-R">
+      {% block search %}
+      <h5>Uploaded assignments</h5>
+      <div class="hidden">
+      {% for file in created_files %}
+      <div class="card mt-2 text-bg-light mb-3">
+          
+          <div class="card-body" class="">
+            <p>Subject: <b>{{ file.subject }}</b><strong style="float: right;">@{{ file.author.username }}</strong></p>
+            <p class="card-text">Name: {{file.title}}<br>{{file.assignment.name}}</p>
+            <form method="POST" action="{% url 'delete_assignment' file.pk %}" style="text-align:end;">
+              <a href="{{file.assignment.url}}" class="btn btn-info btn-sm"  target="_blank">Download file</a>
+              {% csrf_token %}
+              {% if perms.main %} 
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              {% endif %}
+            </form>
+            <p class="card-text text-muted">{{file.created_at}}</p>
+          </div>
+        </div>
+      {% empty %}
+      <p style="color: #6c757d;">No assignments!</p>
+      {% endfor %}
+  </div>
+  {% endblock %}
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "authenticate.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+creat an account
+{% endblock %}
+
+{% block content %}
+
+
+	<div class="container shadow p-4 mb-5 bg-body text-dark bg-opacity-75 rounded" style="width: 50%; overflow-y: auto; position: fixed; left:25%; height: 100%;">
+		<h1>Register</h1>
+		<hr class="mt-0 mb-4">
+
+		{% if messages %}
+		{% for message in messages%}
+		<div class="alert alert-danger alert-dismissible " role="alert">{{message}}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		{% endfor %}
+		{% endif %}
+
+		<br/>
+		<form action="{% url 'register' %}" method=POST enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ user_form|crispy }}
+			{{ profile_form|crispy }}
+		    <br/><br/>
+			<input type="submit" value="Submit" class="btn btn-success">
+		</form>	
+	</div>
+    <br/><br/>	
+
+{% endblock %}

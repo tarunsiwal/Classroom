@@ -1,0 +1,20 @@
+{% extends "assignments.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Submit assignments {% endblock %} 
+
+{% block content %}
+
+<div class="container-fluid shadow p-4 mb-5" style="width: 70%; overflow-y: auto; height: 90%;">
+  <form action="/submit_assignments" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <p style="color: #007FFF">Upload your assignment here:</p>
+  {{ form|crispy }}
+  <br>
+  <button class="btn btn-success btn-sm">Submit</button>
+  <a href="/assignments" class="btn btn-outline-danger btn-sm">Cancle</a>
+</form>
+</div>
+
+{% endblock %}

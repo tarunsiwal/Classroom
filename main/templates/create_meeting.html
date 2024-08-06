@@ -1,0 +1,29 @@
+{% extends "classroom.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Create meeting
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid shadow p-4 mb-5" style="width: 70%; overflow-y: auto; height: 90%;">
+<form action="{% url 'create_meeting' %}" method="POST" enctype="multipart/form-data">
+    <p style="color: #007FFF">Fill the details for meeting: <span style="float: right;font-size: 20px;">⭭</span></p>
+    <br>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-success btn-sm">Create</button>
+    <button
+            type="button"
+            class="btn btn btn-outline-warning btn-sm"
+            onclick="location.href = '/classroom'"
+            style="margin-right: 20px"
+          >Back to Classroom</button>
+      {{email}}
+
+</form>
+
+</div>
+
+{% endblock %}

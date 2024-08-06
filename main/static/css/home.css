@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    box-sizing: border-box;
+    }
+
+img{
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    position: absolute;
+    left: 0;
+    }
+
+.mytext {
+    background-color: rgba(0, 0, 0, 0.500);
+    color: white;
+    font-weight: bold;
+    border: 1px solid #f1f1f1;
+    position: fixed;
+    top: 30%;
+    width: 100%;
+    height: 40%;
+    padding: 20px;
+    text-align: center;
+    }
+
+.mytext a {
+    color: #f1f1f1;
+}
+
+.mytext a:hover {
+    color: #cacaca;
+}

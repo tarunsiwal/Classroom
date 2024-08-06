@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+Notes
+{% endblock %}
+
+{% block pagetitle%}
+Notes
+{% endblock %}
+
+{% block content %}
+
+{% if perms.main %}
+<p>Add a file <a class="link" href="upload_file">here!</a></p>
+{% endif %}
+
+<div class="content">
+
+  <div class="container-L">
+    <form class="d-flex"  method=POST action= 'search_notes' style="width: 80%;">
+      {% csrf_token %}
+      <input class="form-control me-2" type="search" placeholder="Search Notes" aria-label="Search"
+      name="searched">
+      <button class="btn btn-outline-success btn-sm" type="submit">Search</button>
+    </form>
+    <pre style="color: #6c757d;">
+
+Search*
+-By file titel
+-By date (yyyy, mm, dd, yyyy-mm-dd)
+    </pre>
+  </div>
+
+  <div class="container-R">
+    {% block search %}
+    <h5>Available notes <span style="font-size: 20px;color: #007FFF;">⭭</span></h5>
+      {% for file in files %}
+      <div class="card mt-2 text-bg-light mb-3">
+          <div class="card-body">
+            <p class="card-text"><strong>{{ file.title }}</strong><strong style="float: right;">@{{ file.author.username }}</strong></p>
+            <p class="card-text">{{file.file.name}}</p>
+            <form method="POST" action="{% url 'delete_file' file.pk %}" style="text-align:end;">
+              <a href="{{file.file.url}}" class="btn btn-info btn-sm"  target="_blank" >Download file</a>
+              {% csrf_token %}
+              {% if perms.main %}
+              
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>                
+            </form>
+            {% endif %}
+            <p class="card-text text-muted" style="float: left;">{{file.created_at}}</p>
+          </div>
+        </div>
+      {% empty %}
+      <p style="color: #6c757d;">No Uploads!</p>
+      {% endfor %}
+      {% endblock %}
+  </div>
+</div> 
+{% endblock %}

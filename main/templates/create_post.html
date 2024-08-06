@@ -1,0 +1,20 @@
+{% extends 'announce.html' %}
+
+{% block title %}Create a Post{% endblock %} 
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container-fluid shadow p-4 mb-5" style="width: 70%; overflow-y: auto; height: 90%;">
+  <p style="color:#007FFF">Post your announcements:</p>
+<form method="post">
+  {% csrf_token %}
+  {{form|crispy}}
+  <br>
+  <button type="submit" class="btn btn-success btn-sm">Post</button>
+  <a href="/announce" class="btn btn-outline-danger btn-sm">Cancle</a>
+</form>
+</div>
+
+{% endblock %}
